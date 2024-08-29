@@ -98,21 +98,19 @@ https://user-images.githubusercontent.com/15977946/124654387-0fd3c500-ded1-11eb-
 
 ## What's New
 
-- We have added support for two new datasets:
+- Release [RTMW3D](/projects/rtmpose3d), a real-time model for 3D wholebody pose estimation.
 
-  - (CVPR 2023) [UBody](https://mmpose.readthedocs.io/zh_CN/latest/model_zoo_papers/datasets.html#ubody-cvpr-2023)
-  - [300W-LP](https://github.com/open-mmlab/mmpose/tree/main/configs/face_2d_keypoint/topdown_heatmap/300wlp)
+- Release [RTMO](/projects/rtmo), a state-of-the-art real-time method for multi-person pose estimation.
 
-- Support for four new algorithms:
+  ![rtmo](https://github.com/open-mmlab/mmpose/assets/26127467/54d5555a-23e5-4308-89d1-f0c82a6734c2)
 
-  - (ICCV 2023) [MotionBERT](https://github.com/open-mmlab/mmpose/tree/main/configs/body_3d_keypoint/motionbert)
-  - (ICCVW 2023) [DWPose](https://github.com/open-mmlab/mmpose/tree/main/configs/wholebody_2d_keypoint/dwpose)
-  - (ICLR 2023) [EDPose](https://mmpose.readthedocs.io/zh_CN/latest/model_zoo/body_2d_keypoint.html#edpose-edpose-on-coco)
-  - (ICLR 2022) [Uniformer](https://github.com/open-mmlab/mmpose/tree/main/projects/uniformer)
+- Release [RTMW](/configs/wholebody_2d_keypoint/rtmpose/cocktail14/rtmw_cocktail14.md) models in various sizes ranging from RTMW-m to RTMW-x. The input sizes include `256x192` and `384x288`. This provides flexibility to select the right model for different speed and accuracy requirements.
 
-- Released the first whole-body pose estimation model, RTMW, with accuracy exceeding 70 AP on COCO-Wholebody. For details, refer to [RTMPose](/projects/rtmpose/). [Try it now!](https://openxlab.org.cn/apps/detail/mmpose/RTMPose)
+- Support inference of [PoseAnything](/projects/pose_anything). Web demo is available [here](https://openxlab.org.cn/apps/detail/orhir/Pose-Anything).
 
-![rtmw](https://github.com/open-mmlab/mmpose/assets/13503330/635c4618-c459-45e8-84a5-eb68cf338d00)
+- Support for new datasets:
+
+  - (ICCV 2015) [300VW](/docs/en/dataset_zoo/2d_face_keypoint.md)
 
 - Welcome to use the [*MMPose project*](/projects/README.md). Here, you can discover the latest features and algorithms in MMPose and quickly share your ideas and code implementations with the community. Adding new features to MMPose has become smoother:
 
@@ -121,6 +119,9 @@ https://user-images.githubusercontent.com/15977946/124654387-0fd3c500-ded1-11eb-
   - Utilize the powerful capabilities of MMPose in the form of independent projects without being constrained by the code framework.
   - Newly added projects include:
     - [RTMPose](/projects/rtmpose/)
+    - [RTMO](/projects/rtmo/)
+    - [RTMPose3D](/projects/rtmpose3d/)
+    - [PoseAnything](/projects/pose_anything/)
     - [YOLOX-Pose](/projects/yolox_pose/)
     - [MMPose4AIGC](/projects/mmpose4aigc/)
     - [Simple Keypoints](/projects/skps/)
@@ -130,15 +131,14 @@ https://user-images.githubusercontent.com/15977946/124654387-0fd3c500-ded1-11eb-
 
 <br/>
 
-- October 12, 2023: MMPose [v1.2.0](https://github.com/open-mmlab/mmpose/releases/tag/v1.2.0) has been officially released, with major updates including:
+- January 4, 2024: MMPose [v1.3.0](https://github.com/open-mmlab/mmpose/releases/tag/v1.3.0) has been officially released, with major updates including:
 
-  - Support for new datasets: UBody, 300W-LP.
-  - Support for new algorithms: MotionBERT, DWPose, EDPose, Uniformer.
-  - Migration of Associate Embedding, InterNet, YOLOX-Pose algorithms.
-  - Migration of the DeepFashion2 dataset.
-  - Support for Badcase visualization analysis, multi-dataset evaluation, and keypoint visibility prediction features.
+  - Support for new datasets: ExLPose, H3WB
+  - Release of new RTMPose series models: RTMO, RTMW
+  - Support for new algorithm PoseAnything
+  - Enhanced Inferencer with optional progress bar and improved affinity for one-stage methods
 
-  Please check the complete [release notes](https://github.com/open-mmlab/mmpose/releases/tag/v1.2.0) for more details on the updates brought by MMPose v1.2.0!
+  Please check the complete [release notes](https://github.com/open-mmlab/mmpose/releases/tag/v1.3.0) for more details on the updates brought by MMPose v1.3.0!
 
 ## 0.x / 1.x Migration
 
@@ -245,6 +245,7 @@ A summary can be found in the [Model Zoo](https://mmpose.readthedocs.io/en/lates
 - [x] [Human3.6M](https://mmpose.readthedocs.io/en/latest/model_zoo_papers/datasets.html#human3-6m-tpami-2014) \[[homepage](http://vision.imar.ro/human3.6m/description.php)\] (TPAMI'2014)
 - [x] [COCO](https://mmpose.readthedocs.io/en/latest/model_zoo_papers/datasets.html#coco-eccv-2014) \[[homepage](http://cocodataset.org/)\] (ECCV'2014)
 - [x] [CMU Panoptic](https://mmpose.readthedocs.io/en/latest/model_zoo_papers/datasets.html#cmu-panoptic-iccv-2015) \[[homepage](http://domedb.perception.cs.cmu.edu/)\] (ICCV'2015)
+- [x] [300VW](https://mmpose.readthedocs.io/en/latest/model_zoo_papers/datasets.html#300w-imavis-2016) \[[homepage](https://ibug.doc.ic.ac.uk/resources/300-VW/)\] (ICCV'2015)
 - [x] [DeepFashion](https://mmpose.readthedocs.io/en/latest/model_zoo_papers/datasets.html#deepfashion-cvpr-2016) \[[homepage](http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion/LandmarkDetection.html)\] (CVPR'2016)
 - [x] [300W](https://mmpose.readthedocs.io/en/latest/model_zoo_papers/datasets.html#300w-imavis-2016) \[[homepage](https://ibug.doc.ic.ac.uk/resources/300-W/)\] (IMAVIS'2016)
 - [x] [RHD](https://mmpose.readthedocs.io/en/latest/model_zoo_papers/datasets.html#rhd-iccv-2017) \[[homepage](https://lmb.informatik.uni-freiburg.de/resources/datasets/RenderedHandposeDataset.en.html)\] (ICCV'2017)
