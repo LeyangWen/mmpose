@@ -99,7 +99,6 @@ class BaseCocoStyleDataset(BaseDataset):
                     'supported when `test_mode==True`.')
         self.bbox_file = bbox_file
         self.sample_interval = sample_interval
-
         super().__init__(
             ann_file=ann_file,
             metainfo=metainfo,
@@ -244,16 +243,20 @@ class BaseCocoStyleDataset(BaseDataset):
             image_list.append(img)
 
             ann_ids = self.coco.getAnnIds(imgIds=img_id)
+            # todo: sometime multiple ann_ids for same img_id, figure out if correct
+            print(f"img_id: {img_id}, ann_ids: {ann_ids}")
             for ann in self.coco.loadAnns(ann_ids):
-
                 instance_info = self.parse_data_info(
                     dict(raw_ann_info=ann, raw_img_info=img))
-
+                # print(f"instance_info: {instance_info}")
+                # print(f"raw_ann_info: {ann}")
+                # print(f"raw_img_info: {img}")
                 # skip invalid instance annotation.
                 if not instance_info:
                     continue
 
                 instance_list.append(instance_info)
+        print(f"instance_list: {instance_list}")
         return instance_list, image_list
 
     def parse_data_info(self, raw_data_info: dict) -> Optional[dict]:
