@@ -243,8 +243,6 @@ class BaseCocoStyleDataset(BaseDataset):
             image_list.append(img)
 
             ann_ids = self.coco.getAnnIds(imgIds=img_id)
-            # todo: sometime multiple ann_ids for same img_id, figure out if correct
-            print(f"img_id: {img_id}, ann_ids: {ann_ids}")
             for ann in self.coco.loadAnns(ann_ids):
                 instance_info = self.parse_data_info(
                     dict(raw_ann_info=ann, raw_img_info=img))
@@ -256,7 +254,7 @@ class BaseCocoStyleDataset(BaseDataset):
                     continue
 
                 instance_list.append(instance_info)
-        print(f"instance_list: {instance_list}")
+        # print(f"instance_list: {instance_list}")
         return instance_list, image_list
 
     def parse_data_info(self, raw_data_info: dict) -> Optional[dict]:
