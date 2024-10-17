@@ -5,7 +5,7 @@ import os.path as osp
 
 from mmengine.config import Config, DictAction
 from mmengine.runner import Runner
-
+import wandb
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a pose model')
@@ -69,6 +69,13 @@ def parse_args():
     # will pass the `--local-rank` parameter to `tools/train.py` instead
     # of `--local_rank`.
     parser.add_argument('--local_rank', '--local-rank', type=int, default=0)
+
+    parser.add_argument('--wandb_project', default='MMPose-Train', help='wandb project name')
+    parser.add_argument('--wandb_name', default='Test-train-local', help='wandb run name')
+    parser.add_argument('--wandb_mode', default='disabled', type=str, help='choose from online, offline, disabled')
+    parser.add_argument('--arg_notes', default='', type=str, help='notes for this run, will be stored in wandb')
+
+
     args = parser.parse_args()
     if 'LOCAL_RANK' not in os.environ:
         os.environ['LOCAL_RANK'] = str(args.local_rank)
@@ -151,12 +158,14 @@ def main():
         cfg.model.setdefault('data_preprocessor',
                              cfg.get('preprocess_cfg', {}))
 
+    wandb.init(project=args.wandb_project, name=args.wandb_name, config=vars(cfg), mode=args.wandb_mode, notes=args.arg_notes)
+
     # build the runner from config
     runner = Runner.from_cfg(cfg)
 
     # start training
     runner.train()
-
+    wandb.finish()
 
 if __name__ == '__main__':
     main()

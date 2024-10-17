@@ -2,21 +2,23 @@ _base_ = ['../../../_base_/default_runtime.py']
 
 # common setting
 num_keypoints = 37
+sigmas = [0.025]*num_keypoints
+joint_weights = [1.]*num_keypoints
 input_size = (288, 384)
 
 # runtime
 max_epochs = 270
 stage2_num_epochs = 10
 base_lr = 5e-4
-train_batch_size = 4 #320
-val_batch_size = 4 # 32
+train_batch_size = 320
+val_batch_size = 32
 
 # train_cfg = dict(max_epochs=max_epochs, val_interval=10)
 randomness = dict(seed=21)
 
-max_epochs = 10  #270
-stage2_num_epochs = 5  #30
-train_cfg = dict(max_epochs=max_epochs, val_interval=4)  #10)
+max_epochs = 270
+stage2_num_epochs = 30
+train_cfg = dict(max_epochs=max_epochs, val_interval=20)
 
 
 # optimizer
@@ -128,8 +130,8 @@ model = dict(
 dataset_type = 'VEHS7M37kptsDataset'
 data_mode = 'topdown'
 data_root = '/media/leyang/My Book/VEHS/VEHS-7M/'
-VEHS7M_train_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_train.json'
-VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_validate.json'
+VEHS7M_train_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_train.json'
+VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_validate.json'
 VEHS7M_metainfo = 'configs/_base_/datasets/VEHS7M-37kpts.py'
 backend_args = dict(backend='local')
 
@@ -278,5 +280,6 @@ custom_hooks = [
 # evaluators
 val_evaluator = dict(
     type='CocoMetric',
-    ann_file=data_root + VEHS7M_val_ann_file)
+    ann_file=data_root + VEHS7M_val_ann_file,
+    use_area=False)
 test_evaluator = val_evaluator

@@ -28,7 +28,7 @@ python demo/image_demo.py \
     
 ```
 
-## 2024-10-03 notes
+## Train test with VEHS-7M
 - Image frames and VEHS-7M-5fp-37kpts annotation in COCO format ready
 - Need to save vicon-read pkl file as json
 - Configured:
@@ -36,7 +36,7 @@ python demo/image_demo.py \
   - `mmpose/datasets/datasets/wholebody/VEHS7M-37kpts_dataset.py`
   - `configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7MOnly-384x288.py`
 - Maybe still need to add val bbox file like `data/coco/person_detection_results/COCO_val2017_detections_AP_H_56_person.json`
-- Try training with VEHS7M dataset
+- **Try training with VEHS7M dataset**
 ```bash
 python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7MOnly-384x288.py
 ```
@@ -97,4 +97,34 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
         # mask_weight=0.5,
     ),
     ```
+- Using a small file to train first, to see if it works
+- Error in eval:
+  ```
+  File "/home/leyang/anaconda3/envs/mmpose/lib/python3.8/site-packages/xtcocotools/cocoeval.py", line 257, in <dictcomp>
+    self.ious = {(imgId, catId): computeIoU(imgId, catId) \
+  File "/home/leyang/anaconda3/envs/mmpose/lib/python3.8/site-packages/xtcocotools/cocoeval.py", line 373, in computeOks
+    dx = xd - xg
+  ValueError: operands could not be broadcast together with shapes (37,) (13,3)
+  ```
+  - Added joint weights and sigmas with the same number of keypoints
+  - Seems to be caused by xg read: 37,3 --> 13,3, where should be 37*3,1 --> 37,1
+    - keypoints in annotation file should be 1d
+  - Resume training
+  ```bash
+  python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7MOnly-384x288.py --resume
+  ```
+- Error:
+  ```
+    File "/home/leyang/anaconda3/envs/mmpose/lib/python3.8/site-packages/xtcocotools/cocoeval.py", line 382, in computeOks
+    e = (dx**2 + dy**2) / vars / (gt['area']+np.spacing(1)) / 2
+  KeyError: 'area'
+  ```
+    - Need 'area'
+    - Area is the area of the segmentation mask [link](https://github.com/cocodataset/cocoapi/issues/36)
+    - Just use the bounding box area for now, seems to affect the iou evaluation's small med large size bb
+    - Or set COCOeval use_are=False [link](https://mmpose.readthedocs.io/en/latest/_modules/mmpose/evaluation/metrics/coco_metric.html)
 - Training on local linux, next step is to move to ARC
+
+# ARC slurm preparation
+
+
