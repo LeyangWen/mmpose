@@ -126,5 +126,38 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
 - Training on local linux, next step is to move to ARC
 
 # ARC slurm preparation
-- Need python 3.8it seems
-
+- Setting up env following [link](https://mmpose.readthedocs.io/en/latest/installation.html)
+  - Need python 3.8 it seems, but ARC have 3.10 as default for pytorch.
+    - Using conda and installing pytorch with pip, instead of module load
+    - Load cuda modules first
+    - `conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia` --> 2.4.1, no good, dont use
+  - MMCV version error:
+    ```
+    MMCV==2.2.0 is used but incompatible.
+    ```
+    - Tried `mim install "mmcv==2.1.0"`, not working
+    - Tried `pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu117/torch2.0.0/index.html`
+      - only for 1.x, not 2.x
+    - `python -c 'import torch;print(torch.__version__)'` --> 2.4.1
+    - Local machine --> 2.1.1
+    - I think pytorch 2.4 --> mmcv 2.2, but I need mmcv 2.1 from here [link](https://mmcv.readthedocs.io/en/latest/get_started/installation.html#install-with-pip)
+       - Uninstall torch stuff
+       - CUDA 11.8 - linux `conda install pytorch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 pytorch-cuda=11.8 -c pytorch -c nvidia`
+       - `pip install mmcv==2.1.0 -f https://download.openmmlab.com/mmcv/dist/cu118/torch2.1/index.html`
+       - Success
+      ```
+      Cuda 11.8
+      pytorch 2.1.1
+      $ pip list | grep mm
+      mmcv                   2.1.0
+      mmdet                  3.2.0
+      mmengine               0.10.5
+      mmpose                 1.3.2
+      ```
+    - Error:
+    ```
+        ext = importlib.import_module('mmcv.' + name)
+    File "/home/wenleyan/.conda/envs/openmmlab/lib/python3.8/importlib/__init__.py", line 127, in import_module
+      return _bootstrap._gcd_import(name[level:], package, level)
+    ImportError: libc10_cuda.so: cannot open shared object file: No such file or directory
+    ```
