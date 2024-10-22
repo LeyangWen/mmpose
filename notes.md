@@ -161,3 +161,4 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
       return _bootstrap._gcd_import(name[level:], package, level)
     ImportError: libc10_cuda.so: cannot open shared object file: No such file or directory
     ```
+       - Seems to be caused by no GPU on interactive node, try on GPU node
