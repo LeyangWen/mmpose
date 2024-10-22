@@ -6,6 +6,8 @@ import os.path as osp
 from mmengine.config import Config, DictAction
 from mmengine.runner import Runner
 import wandb
+import torch
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a pose model')
@@ -160,6 +162,7 @@ def main():
 
     wandb.init(project=args.wandb_project, name=args.wandb_name, config=vars(cfg), mode=args.wandb_mode, notes=args.arg_notes)
 
+    print(f"Cuda available: {torch.cuda.is_available()} - {torch.__version__}")
     # build the runner from config
     runner = Runner.from_cfg(cfg)
 
