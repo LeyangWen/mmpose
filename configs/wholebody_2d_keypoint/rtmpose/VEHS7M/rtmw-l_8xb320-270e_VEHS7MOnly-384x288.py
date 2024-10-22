@@ -129,7 +129,8 @@ model = dict(
 # base dataset settings
 dataset_type = 'VEHS7M37kptsDataset'
 data_mode = 'topdown'
-data_root = '/media/leyang/My Book/VEHS/VEHS-7M/'
+# data_root = '/media/leyang/My Book/VEHS/VEHS-7M/'  # Linux path
+data_root = '/nfs/turbo/coe-shdpm/leyang/VEHS-7M/'  # Slurm path
 VEHS7M_train_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_train.json'
 VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_validate.json'
 VEHS7M_metainfo = 'configs/_base_/datasets/VEHS7M-37kpts.py'
