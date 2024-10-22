@@ -126,5 +126,5 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
 - Training on local linux, next step is to move to ARC
 
 # ARC slurm preparation
-
+- Need python 3.8it seems
 
