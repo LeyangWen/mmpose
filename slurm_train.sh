@@ -31,5 +31,5 @@ python tools/train.py \
 configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7MOnly-384x288.py \
 --wandb_name 'Train-slurm-VEHS7MOnly' \
 --wandb_mode 'online' \
---arg_notes 'VEHS-7M only - resume'
+--arg_notes 'VEHS-7M only - resume' \
 --resume \
