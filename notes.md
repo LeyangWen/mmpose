@@ -164,8 +164,9 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
        - Maybe caused by no GPU on interactive node, try on GPU node --> same error
        - `python -c "import torch; print(torch.__path__[0])"`
        - `ls /home/wenleyan/.conda/envs/openmmlab/lib/python3.8/site-packages/torch/lib` can not find libc10_cuda.so
-       - Try reinstalling pytorch with conda
-       - If that dont work try again with pip
+       - First activate conda, then load cuda module
+       - Deleted old and try reinstalling pytorch with conda `conda install pytorch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 pytorch-cuda=11.8 -c pytorch -c nvidia`
+         - worked, have `libtorch_cuda.so` now
 
 ## Prepare other datasets
 - COCO WholeBody

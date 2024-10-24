@@ -24,12 +24,12 @@ module list
 
 conda activate openmmlab
 
-conda install pytorch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 pytorch-cuda=11.8 -c pytorch -c nvidia
+nvidia-smi
 
 ## RTMPose - Train 37kpts on VEHS-7M only
-#python tools/train.py \
-#configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7MOnly-384x288.py \
-#--resume \
-#--wandb_name 'Test-train-slurm' \
-#--wandb_mode 'online' \
-#--arg_notes ''
+python tools/train.py \
+configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7MOnly-384x288.py \
+--resume \
+--wandb_name 'Test-train-slurm' \
+--wandb_mode 'online' \
+--arg_notes ''
