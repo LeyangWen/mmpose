@@ -172,7 +172,10 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
 - AIC
 - MPII-TRB
 
-For each
+```bash
+python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7Mplus-384x288.py
+```
 
+- First try with VEHS-7M only, but merge
 
 
