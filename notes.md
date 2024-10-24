@@ -169,6 +169,9 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
          - worked, have `libtorch_cuda.so` now
 - interactive session not working due to NVIDIA driver issue, try on GPU node
   - GPU node working on batch file, training!!!
+- Try full dataset, got CUDA out of memory error
+  - I got 3 A40 which have 48GB each
+  - 32 batch size is using 
 
 ## Prepare other datasets
 - COCO WholeBody
