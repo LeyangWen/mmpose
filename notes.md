@@ -171,7 +171,9 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
   - GPU node working on batch file, training!!!
 - Try full dataset, got CUDA out of memory error
   - I got 3 A40 which have 48GB each
-  - 32 batch size is using 
+  - 160 batch size still got CUDA out of memory error on 3 GPU
+  - On 1 GPU, 32 batch size is using 26% mem, which means I can use 90%/26%*3*32 = 330 batch size
+  - Try 128 with 3 GPU
 
 ## Prepare other datasets
 - COCO WholeBody
