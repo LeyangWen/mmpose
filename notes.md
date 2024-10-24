@@ -167,6 +167,8 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
        - First activate conda, then load cuda module
        - Deleted old and try reinstalling pytorch with conda `conda install pytorch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 pytorch-cuda=11.8 -c pytorch -c nvidia`
          - worked, have `libtorch_cuda.so` now
+- interactive session not working due to NVIDIA driver issue, try on GPU node
+  - GPU node working on batch file, training!!!
 
 ## Prepare other datasets
 - COCO WholeBody

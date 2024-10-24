@@ -10,15 +10,15 @@ input_size = (288, 384)
 max_epochs = 270
 stage2_num_epochs = 10
 base_lr = 5e-4
-train_batch_size = 320
+train_batch_size = 320*4
 val_batch_size = 32
 
 # train_cfg = dict(max_epochs=max_epochs, val_interval=10)
 randomness = dict(seed=21)
 
-max_epochs = 270
-stage2_num_epochs = 30
-train_cfg = dict(max_epochs=max_epochs, val_interval=20)
+max_epochs = 4  #270
+stage2_num_epochs = 2  #30
+train_cfg = dict(max_epochs=max_epochs, val_interval=2)  #10)
 
 
 # optimizer
@@ -222,7 +222,7 @@ train_datasets = [dataset_wb,]
 # data loaders
 train_dataloader = dict(
     batch_size=train_batch_size,
-    num_workers=4,
+    num_workers=2,
     pin_memory=False,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
@@ -244,7 +244,7 @@ train_dataloader = dict(
 
 val_dataloader = dict(
     batch_size=val_batch_size,
-    num_workers=4,
+    num_workers=2,
     persistent_workers=True,
     drop_last=False,
     sampler=dict(type='DefaultSampler', shuffle=False, round_up=False),
