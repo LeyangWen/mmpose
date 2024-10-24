@@ -4,11 +4,11 @@
 #SBATCH --error=output_slurm/train_error.txt
 #SBATCH --mail-type=BEGIN,END,FAIL
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
+#SBATCH --ntasks-per-node=3
 #SBATCH --cpus-per-task=2
-#SBATCH --mem=50g
+#SBATCH --mem=20g
 #SBATCH --gres=gpu:3
-#SBATCH --time=10:00:00
+#SBATCH --time=24:00:00
 #SBATCH --account=shdpm0
 #SBATCH --partition=spgpu
 ##### END preamble
@@ -31,5 +31,5 @@ python tools/train.py \
 configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7MOnly-384x288.py \
 --wandb_name 'Train-slurm-VEHS7MOnly' \
 --wandb_mode 'online' \
---arg_notes 'VEHS-7M only'
-#--resume \
+--arg_notes 'VEHS-7M only - resume'
+--resume \
