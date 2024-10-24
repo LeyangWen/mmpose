@@ -125,7 +125,7 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
     - Or set COCOeval use_are=False [link](https://mmpose.readthedocs.io/en/latest/_modules/mmpose/evaluation/metrics/coco_metric.html)
 - Training on local linux, next step is to move to ARC
 
-# ARC slurm preparation
+## ARC slurm preparation
 - Setting up env following [link](https://mmpose.readthedocs.io/en/latest/installation.html)
   - Need python 3.8 it seems, but ARC have 3.10 as default for pytorch.
     - Using conda and installing pytorch with pip, instead of module load
@@ -162,4 +162,17 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
     ImportError: libc10_cuda.so: cannot open shared object file: No such file or directory
     ```
        - Maybe caused by no GPU on interactive node, try on GPU node --> same error
-       - 
+       - `python -c "import torch; print(torch.__path__[0])"`
+       - `ls /home/wenleyan/.conda/envs/openmmlab/lib/python3.8/site-packages/torch/lib` can not find libc10_cuda.so
+       - Try reinstalling pytorch with conda
+       - If that dont work try again with pip
+
+## Prepare other datasets
+- COCO WholeBody
+- AIC
+- MPII-TRB
+
+For each
+
+
+
