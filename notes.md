@@ -174,6 +174,9 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
   - 160 batch size still got CUDA out of memory error on 3 GPU
   - On 1 GPU, 32 batch size is using 26% mem, which means I can use 90%/26%*32 = 110 batch size (*3?)
   - Try 115 with 3 GPU  --> 89% mem
+- Only 1 GPU training
+  - try #SBATCH --ntasks-per-node=3 set to GPU number, still 1 GPU
+  - Asking IT
 
 ## Prepare other datasets
 - COCO WholeBody
