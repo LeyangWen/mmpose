@@ -10,7 +10,7 @@ input_size = (288, 384)
 max_epochs = 270
 stage2_num_epochs = 10
 base_lr = 5e-4
-train_batch_size = 110
+train_batch_size = 115
 val_batch_size = 32
 
 # train_cfg = dict(max_epochs=max_epochs, val_interval=10)
