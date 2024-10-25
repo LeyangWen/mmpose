@@ -11,6 +11,7 @@
 #SBATCH --time=24:00:00
 #SBATCH --account=shdpm0
 #SBATCH --partition=spgpu
+#SBATCH --gpu-bind=single:1
 ##### END preamble
 
 my_job_header
