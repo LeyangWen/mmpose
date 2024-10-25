@@ -18,7 +18,7 @@ randomness = dict(seed=21)
 
 max_epochs = 270
 stage2_num_epochs = 30
-train_cfg = dict(max_epochs=max_epochs, val_interval=10)
+train_cfg = dict(max_epochs=max_epochs, val_interval=100)
 
 
 # optimizer

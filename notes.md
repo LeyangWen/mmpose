@@ -176,7 +176,7 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
   - Try 115 with 3 GPU  --> 89% mem
 - Only 1 GPU training
   - try #SBATCH --ntasks-per-node=3 set to GPU number, still 1 GPU
-  - Asking IT: Try `srun python tools/train.py \`
+  - Asking IT: Try `srun python tools/train.py \` & `#SBATCH --gpu-bind=single:1`
 
 ## Prepare other datasets
 - COCO WholeBody
