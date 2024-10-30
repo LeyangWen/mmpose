@@ -205,4 +205,6 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
       - Need to find out where it is loaded. 
       - Bug in vicon-read repo that caused the json file to say: num_keypoints=3 instead of 37, maybe that caused the error
       - Final cause: `mmpose/datasets/datasets/wholebody/coco_wholebody_dataset.py` introduced the 'keypoints_3d' key, and set it to None, leading it down the wrong path
-
+  - Working, but killed due to memeory
+    - Use 4 batch size, remember to change in ARC and test optimal batch size.
+    - Working
