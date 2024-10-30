@@ -184,9 +184,25 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
 - MPII-TRB
 
 ```bash
-python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7Mplus-384x288.py
+python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7Mplus-384x288.py --resume
 ```
 
-- First try with VEHS-7M only, but merge
-
+- First try with VEHS-7M only, but merge, works
+- Try adding COCO WholeBody, need to add mapping & converter pipeline in config python file
+  - todo: make sure that left and right is correct 
+  - Dataset name from `mmpose/datasets/datasets/wholebody/__init__.py`
+  - Running
+  - Error:
+    ```
+      File "/home/leyang/Documents/mmpose/mmpose/datasets/transforms/converting.py", line 112, in transform
+      c = results[key].shape[-1]
+      AttributeError: 'NoneType' object has no attribute 'shape'
+    ```
+    - kpt mapping conversion caused the error 
+    - Tried traininig with COCO-wholebody only using mmpose config, works
+    - the coco-wholebody image is 1 based, changing to o 0-based
+    - results['keypoints_3d'] key exists, but is None, causing the error, should not exist, and only 'keypoints' should exist
+      - Need to find out where it is loaded. 
+      - Bug in vicon-read repo that caused the json file to say: num_keypoints=3 instead of 37, maybe that caused the error
+      - Final cause: `mmpose/datasets/datasets/wholebody/coco_wholebody_dataset.py` introduced the 'keypoints_3d' key, and set it to None, leading it down the wrong path
 

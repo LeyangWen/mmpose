@@ -165,7 +165,6 @@ class BaseCocoStyleDataset(BaseDataset):
         # `get_data_info` function, as doing so may cause the mixed image
         # transformations to stall or hang.
         data_info['dataset'] = self
-
         return self.pipeline(data_info)
 
     def get_data_info(self, idx: int) -> dict:

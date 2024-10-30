@@ -7,18 +7,14 @@ joint_weights = [1.]*num_keypoints
 input_size = (288, 384)
 
 # runtime
-max_epochs = 270
+max_epochs = 20
 stage2_num_epochs = 10
 base_lr = 5e-4
-train_batch_size = 320
-val_batch_size = 32
+train_batch_size = 4  #
+val_batch_size = 4  #
 
-# train_cfg = dict(max_epochs=max_epochs, val_interval=10)
+train_cfg = dict(max_epochs=max_epochs, val_interval=10)
 randomness = dict(seed=21)
-
-max_epochs = 270
-stage2_num_epochs = 30
-train_cfg = dict(max_epochs=max_epochs, val_interval=20)
 
 
 # optimizer
@@ -199,6 +195,96 @@ train_pipeline_stage2 = [
     dict(type='PackPoseInputs')
 ]
 
+# mapping
+# (AIC-kpts, COCO133-kpts)
+aic_coco133 = [(0, 6), (1, 8), (2, 10), (3, 5), (4, 7), (5, 9), (6, 12),
+               (7, 14), (8, 16), (9, 11), (10, 13), (11, 15)]
+
+crowdpose_coco133 = [(0, 5), (1, 6), (2, 7), (3, 8), (4, 9), (5, 10), (6, 11),
+                     (7, 12), (8, 13), (9, 14), (10, 15), (11, 16)]
+
+mpii_coco133 = [
+    (0, 16),
+    (1, 14),
+    (2, 12),
+    (3, 11),
+    (4, 13),
+    (5, 15),
+    (10, 10),
+    (11, 8),
+    (12, 6),
+    (13, 5),
+    (14, 7),
+    (15, 9),
+]
+
+jhmdb_coco133 = [
+    (3, 6),
+    (4, 5),
+    (5, 12),
+    (6, 11),
+    (7, 8),
+    (8, 7),
+    (9, 14),
+    (10, 13),
+    (11, 10),
+    (12, 9),
+    (13, 16),
+    (14, 15),
+]
+
+halpe_coco133 = [(i, i)
+                 for i in range(17)] + [(20, 17), (21, 20), (22, 18), (23, 21),
+                                        (24, 19),
+                                        (25, 22)] + [(i, i - 3)
+                                                     for i in range(26, 136)]
+
+posetrack_coco133 = [
+    (0, 0),
+    (3, 3),
+    (4, 4),
+    (5, 5),
+    (6, 6),
+    (7, 7),
+    (8, 8),
+    (9, 9),
+    (10, 10),
+    (11, 11),
+    (12, 12),
+    (13, 13),
+    (14, 14),
+    (15, 15),
+    (16, 16),
+]
+
+humanart_coco133 = [(i, i) for i in range(17)] + [(17, 99), (18, 120),
+                                                  (19, 17), (20, 20)]
+# convert
+coco133_VEHS7M = [(11, 1-1),
+                    (10, 2-1),
+                    (13, 3-1),
+                    (12, 4-1),
+                    (15, 5-1),
+                    (14, 6-1),
+                    (17, 7-1),
+                    (16, 8-1),
+                    (21, 9-1),
+                    (18, 10-1),
+                    (122, 11-1),
+                    (101, 12-1),
+                    (9, 13-1),
+                    (8, 14-1),
+                    (7, 15-1),
+                    (6, 16-1),
+                    (51, 17-1),
+                    (5, 20-1),
+                    (4, 21-1),
+                    (118, 33-1),
+                    (130, 34-1),
+                    (97, 35-1),
+                    (109, 36-1)]
+
+# convert others by other-coco133-VEHS7M?, wont work for some with coco133 missing points
 
 # train datasets
 dataset_VHES7M = dict(
@@ -210,11 +296,24 @@ dataset_VHES7M = dict(
     pipeline=[],
 )
 
+dataset_coco = dict(
+    type='CocoWholeBodyDataset',
+    data_root='data/coco/',
+    data_mode=data_mode,
+    ann_file='annotations/coco_wholebody_train_v1.0.json',
+    data_prefix=dict(img='train2017'),
+    pipeline=[
+        dict(
+            type='KeypointConverter',
+            num_keypoints=num_keypoints,
+            mapping=coco133_VEHS7M)
+    ],
+)
 
 dataset_wb = dict(
     type='CombinedDataset',
     metainfo=dict(from_file=VEHS7M_metainfo),
-    datasets=[dataset_VHES7M],
+    datasets=[dataset_VHES7M, dataset_coco],
     pipeline=[],
     test_mode=False,
 )
@@ -229,14 +328,6 @@ train_dataloader = dict(
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
     dataset=dict(
-        # type=dataset_type,
-        # data_root=data_root,
-        # data_mode=data_mode,
-        # ann_file=VEHS7M_train_ann_file,
-        # data_prefix=dict(img='img/5fps/train/'),
-        # pipeline=train_pipeline,
-        # metainfo=dict(from_file=VEHS7M_metainfo),
-
         type='CombinedDataset',
         metainfo=dict(from_file=VEHS7M_metainfo),
         datasets=train_datasets,
