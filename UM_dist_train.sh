@@ -8,7 +8,7 @@
 #SBATCH --cpus-per-task=3
 #SBATCH --mem=20g
 #SBATCH --gres=gpu:2
-#SBATCH --time= 30:00
+#SBATCH --time=30:00
 #SBATCH --account=shdpm0
 #SBATCH --partition=spgpu
 
