@@ -177,7 +177,8 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
 - Only 1 GPU training
   - try #SBATCH --ntasks-per-node=3 set to GPU number, still 1 GPU
   - Asking IT: Try `srun python tools/train.py \` & `#SBATCH --gpu-bind=single:1`
-
+  - [MMPose Train w. multi GPU](https://mmpose.readthedocs.io/en/latest/user_guides/train_and_test.html#train-with-multiple-gpus)
+  - 
 ## Prepare other datasets
 - COCO WholeBody
 - AIC
