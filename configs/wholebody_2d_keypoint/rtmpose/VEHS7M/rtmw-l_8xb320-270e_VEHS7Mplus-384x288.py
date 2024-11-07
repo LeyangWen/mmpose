@@ -284,6 +284,42 @@ coco133_VEHS7M = [(11, 1-1),
                     (97, 35-1),
                     (109, 36-1)]
 
+def mapping_convert(map_ab, map_bc):
+    """
+    note: if a have keypoints not in b but in c, it will not be converted
+    Args:
+        map_ab:
+        map_bc:
+    Returns:
+        map_ac:
+    """
+    map_ac = []
+    map_ab_check = []
+    for ab_pair in map_ab:
+        a_id = ab_pair[0]
+        b_id = ab_pair[1]
+        c_id = False
+        map_ab_check.append(a_id)
+        for bc_pair in map_bc:
+            if bc_pair[0] == b_id:
+                c_id = bc_pair[1]
+        if c_id:
+            map_ac.append((a_id, c_id))
+    map_ab_check = set(map_ab_check)
+    missing_id = []
+    for check_id in range(max(map_ab_check)):
+        if check_id not in map_ab_check:
+            missing_id.append(check_id)
+    if len(missing_id)>0:
+        print(f"Mapping_convert: missing id in dataset_a, check if they are in c: {missing_id}")
+
+    return map_ac
+
+aic_VEHS7M = mapping_convert(aic_coco133, coco133_VEHS7M)
+# [(0, 15), (1, 13), (2, 1), (3, 19), (4, 14), (5, 12), (6, 3), (7, 5), (8, 7), (10, 2), (11, 4)]
+mpii_VEHS7M = mapping_convert(mpii_coco133, coco133_VEHS7M)
+# [(0, 7), (1, 5), (2, 3), (4, 2), (5, 4), (10, 1), (11, 13), (12, 15), (13, 19), (14, 14), (15, 12)]
+
 # convert others by other-coco133-VEHS7M?, wont work for some with coco133 missing points
 
 # train datasets
@@ -307,6 +343,35 @@ dataset_coco = dict(
             type='KeypointConverter',
             num_keypoints=num_keypoints,
             mapping=coco133_VEHS7M)
+    ],
+)
+
+dataset_aic = dict(
+    type='AicDataset',
+    data_root=data_root,
+    data_mode=data_mode,
+    ann_file='aic/annotations/aic_train.json',
+    data_prefix=dict(img='pose/ai_challenge/ai_challenger_keypoint'
+                     '_train_20170902/keypoint_train_images_20170902/'),
+    pipeline=[
+        dict(
+            type='KeypointConverter',
+            num_keypoints=num_keypoints,
+            mapping=aic_coco133)
+    ],
+)
+
+dataset_mpii = dict(
+    type='MpiiDataset',
+    data_root=data_root,
+    data_mode=data_mode,
+    ann_file='mpii/annotations/mpii_train.json',
+    data_prefix=dict(img='pose/MPI/images/'),
+    pipeline=[
+        dict(
+            type='KeypointConverter',
+            num_keypoints=num_keypoints,
+            mapping=mpii_coco133)
     ],
 )
 
