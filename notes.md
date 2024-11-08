@@ -217,6 +217,26 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
     - ann file path
     - image prefix path
     - dataset name, according to `mmpose/datasets/datasets/body/__init__.py`
+    - data mapping --> util functions in `configs/config_utils.py`
   - MPII & MPII-TRB working, AIC seems to be missing figures, probably due to partial unzip process. --> unzipped again and fixed
-  - How is my VEHS-7M sequence chosen?
+  - All working
 
+## Merge training on ARC
+
+### Download all datasets and MMpose annotations in Turbo
+- Images
+```bash
+  pip install openxlab #安装
+  pip install -U openxlab #版本升级
+  openxlab login #进行登录，输入对应的AK/SK
+  
+  openxlab dataset get --dataset-repo OpenDataLab/AI_Challenger #数据集下载
+  openxlab dataset get --dataset-repo OpenDataLab/MPII_Human_Pose #数据集下载
+  mim download mmpose --dataset coco2017
+```
+- MMpose annotations
+  - [link](https://mmpose.readthedocs.io/en/latest/dataset_zoo/2d_body_keypoint.html?highlight=aic) and put in `/annotations`
+
+### Speed test for merge training
+
+### Set hyperparameters to excel sheet
