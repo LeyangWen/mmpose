@@ -131,7 +131,7 @@ data_root = '/media/leyang/My Book/VEHS/VEHS-7M/'  # Linux path
 # VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_validate.json'
 VEHS7M_train_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_train.json'
 VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_validate.json'
-VEHS7M_metainfo = 'configs/_base_/datasets/VEHS7M-37kpts.py'
+VEHS7M_metainfo = 'configs/_base_/datasets/VEHS7M_37kpts.py'
 backend_args = dict(backend='local')
 
 # pipelines
@@ -260,64 +260,43 @@ posetrack_coco133 = [
 humanart_coco133 = [(i, i) for i in range(17)] + [(17, 99), (18, 120),
                                                   (19, 17), (20, 20)]
 # convert
-coco133_VEHS7M = [(11, 1-1),
-                    (10, 2-1),
-                    (13, 3-1),
-                    (12, 4-1),
-                    (15, 5-1),
-                    (14, 6-1),
-                    (17, 7-1),
-                    (16, 8-1),
-                    (21, 9-1),
-                    (18, 10-1),
-                    (122, 11-1),
-                    (101, 12-1),
-                    (9, 13-1),
-                    (8, 14-1),
-                    (7, 15-1),
-                    (6, 16-1),
-                    (51, 17-1),
-                    (5, 20-1),
-                    (4, 21-1),
-                    (118, 33-1),
-                    (130, 34-1),
-                    (97, 35-1),
-                    (109, 36-1)]
+coco133_VEHS7M = [(11-1, 1),
+                    (10-1, 2),
+                    (13-1, 3),
+                    (12-1, 4),
+                    (15-1, 5),
+                    (14-1, 6),
+                    (17-1, 7),
+                    (16-1, 8),
+                    (21-1, 9),
+                    (18-1, 10),
+                    (122-1, 11),
+                    (101-1, 12),
+                    (9-1, 13),
+                    (8-1, 14),
+                    (7-1, 15),
+                    (6-1, 16),
+                    (51-1, 17),
+                    (5-1, 20),
+                    (4-1, 21),
+                    (118-1, 33),
+                    (130-1, 34),
+                    (97-1, 35),
+                    (109-1, 36)]
+# ref: configs/_base_/datasets/VEHS7M_37kpts.py
 
-def mapping_convert(map_ab, map_bc):
-    """
-    note: if a have keypoints not in b but in c, it will not be converted
-    Args:
-        map_ab:
-        map_bc:
-    Returns:
-        map_ac:
-    """
-    map_ac = []
-    map_ab_check = []
-    for ab_pair in map_ab:
-        a_id = ab_pair[0]
-        b_id = ab_pair[1]
-        c_id = False
-        map_ab_check.append(a_id)
-        for bc_pair in map_bc:
-            if bc_pair[0] == b_id:
-                c_id = bc_pair[1]
-        if c_id:
-            map_ac.append((a_id, c_id))
-    map_ab_check = set(map_ab_check)
-    missing_id = []
-    for check_id in range(max(map_ab_check)):
-        if check_id not in map_ab_check:
-            missing_id.append(check_id)
-    if len(missing_id)>0:
-        print(f"Mapping_convert: missing id in dataset_a, check if they are in c: {missing_id}")
+aic_VEHS7M = [(0, 15), (1, 13), (2, 1), (3, 16), (4, 14), (5, 2), (6, 3), (7, 5), (8, 7), (9, 4), (10, 6), (11, 8)]
 
-    return map_ac
-
-aic_VEHS7M = mapping_convert(aic_coco133, coco133_VEHS7M)
-# [(0, 15), (1, 13), (2, 1), (3, 19), (4, 14), (5, 12), (6, 3), (7, 5), (8, 7), (10, 2), (11, 4)]
-mpii_VEHS7M = mapping_convert(mpii_coco133, coco133_VEHS7M)
+mpii_trb_VEHS7M = [(0, 16), (1, 15),
+                   (2, 14), (3, 13),
+                   (4, 2), (5, 1),
+                   (6, 4), (7, 3),
+                   (8, 6), (9, 5),
+                   (10, 8), (11, 7),
+                   (12, 19),
+                   (13, 22),
+                   (18, 30), (19, 29),
+                   (20, 32),(21, 31)]
 # [(0, 7), (1, 5), (2, 3), (4, 2), (5, 4), (10, 1), (11, 13), (12, 15), (13, 19), (14, 14), (15, 12)]
 
 # convert others by other-coco133-VEHS7M?, wont work for some with coco133 missing points
@@ -348,37 +327,37 @@ dataset_coco = dict(
 
 dataset_aic = dict(
     type='AicDataset',
-    data_root=data_root,
+    data_root="/media/leyang/My Book/Datasets/HumanPose2D/OpenDataLab___AI_Challenger/",
     data_mode=data_mode,
-    ann_file='aic/annotations/aic_train.json',
-    data_prefix=dict(img='pose/ai_challenge/ai_challenger_keypoint'
-                     '_train_20170902/keypoint_train_images_20170902/'),
+    ann_file='annotations/aic_train.json',
+    data_prefix=dict(img='raw/ai_challenger_keypoint_train_20170902/keypoint_train_images_20170902/'),
     pipeline=[
         dict(
             type='KeypointConverter',
             num_keypoints=num_keypoints,
-            mapping=aic_coco133)
+            mapping=aic_VEHS7M)
     ],
 )
 
-dataset_mpii = dict(
-    type='MpiiDataset',
-    data_root=data_root,
+
+dataset_mpiitrb = dict(
+    type='MpiiTrbDataset',
+    data_root="/media/leyang/My Book/Datasets/HumanPose2D/OpenDataLab___MPII_Human_Pose/",
     data_mode=data_mode,
-    ann_file='mpii/annotations/mpii_train.json',
-    data_prefix=dict(img='pose/MPI/images/'),
+    ann_file='annotations/mpii_trb_train.json',
+    data_prefix=dict(img='raw/images'),
     pipeline=[
         dict(
             type='KeypointConverter',
             num_keypoints=num_keypoints,
-            mapping=mpii_coco133)
+            mapping=mpii_trb_VEHS7M)
     ],
 )
 
 dataset_wb = dict(
     type='CombinedDataset',
     metainfo=dict(from_file=VEHS7M_metainfo),
-    datasets=[dataset_VHES7M, dataset_coco],
+    datasets=[dataset_VHES7M, dataset_aic, dataset_mpiitrb, dataset_coco],
     pipeline=[],
     test_mode=False,
 )

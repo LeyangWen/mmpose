@@ -64,7 +64,7 @@ class VEHS7M37kptsDataset(BaseCocoStyleDataset):
             image. Default: 1000.
     """
 
-    METAINFO: dict = dict(from_file='configs/_base_/datasets/VEHS7M-37kpts.py')
+    METAINFO: dict = dict(from_file='configs/_base_/datasets/VEHS7M_37kpts.py')
 
     # def parse_data_info(self, raw_data_info: dict) -> Optional[dict]:
     #     """Parse raw COCO annotation of an instance.

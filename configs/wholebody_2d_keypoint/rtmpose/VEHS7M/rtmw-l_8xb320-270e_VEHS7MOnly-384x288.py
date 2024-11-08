@@ -137,7 +137,7 @@ data_root = '/nfs/turbo/coe-shdpm/leyang/VEHS-7M/'  # Slurm path
 VEHS7M_train_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_train.json'
 VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_validate.json'
 
-VEHS7M_metainfo = 'configs/_base_/datasets/VEHS7M-37kpts.py'
+VEHS7M_metainfo = 'configs/_base_/datasets/VEHS7M_37kpts.py'
 backend_args = dict(backend='local')
 
 # pipelines

@@ -209,3 +209,14 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
   - Working, but killed due to memeory
     - Use 4 batch size, remember to change in ARC and test optimal batch size.
     - Working
+- Try AIC, MPII, MPII-TRB
+  - Downloaded whole data from [link](https://openxlab.org.cn/datasets/OpenDataLab/AI_Challenger/cli/main) --> good for downloading images and all
+  - Download annotation in coco Format in [link](https://mmpose.readthedocs.io/en/latest/dataset_zoo/2d_body_keypoint.html?highlight=aic) and put in `/annotations`
+  - Modified train config to modify:
+    - data root
+    - ann file path
+    - image prefix path
+    - dataset name, according to `mmpose/datasets/datasets/body/__init__.py`
+  - MPII & MPII-TRB working, AIC seems to be missing figures, probably due to partial unzip process. --> unzipped again and fixed
+  - How is my VEHS-7M sequence chosen?
+
