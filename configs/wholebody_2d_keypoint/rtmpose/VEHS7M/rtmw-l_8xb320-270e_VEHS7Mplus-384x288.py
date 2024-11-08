@@ -7,11 +7,11 @@ joint_weights = [1.]*num_keypoints
 input_size = (288, 384)
 
 # runtime
-max_epochs = 20
+max_epochs = 270
 stage2_num_epochs = 10
 base_lr = 5e-4
-train_batch_size = 4  #
-val_batch_size = 4  #
+train_batch_size = 122
+val_batch_size = 32
 
 train_cfg = dict(max_epochs=max_epochs, val_interval=10)
 randomness = dict(seed=21)
@@ -125,12 +125,14 @@ model = dict(
 # base dataset settings
 dataset_type = 'VEHS7M37kptsDataset'
 data_mode = 'topdown'
-data_root = '/media/leyang/My Book/VEHS/VEHS-7M/'  # Linux path
-# data_root = '/nfs/turbo/coe-shdpm/leyang/VEHS-7M/'  # Slurm path
+# data_root = '/media/leyang/My Book/VEHS/VEHS-7M/'  # Linux path
+data_root = '/nfs/turbo/coe-shdpm/leyang/VEHS-7M/'  # Slurm path
+
 # VEHS7M_train_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_train.json'
 # VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_validate.json'
-VEHS7M_train_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_train.json'
-VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_validate.json'
+VEHS7M_train_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_train.json'
+VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_validate.json'
+
 VEHS7M_metainfo = 'configs/_base_/datasets/VEHS7M_37kpts.py'
 backend_args = dict(backend='local')
 

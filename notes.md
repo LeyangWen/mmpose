@@ -238,5 +238,6 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
   - [link](https://mmpose.readthedocs.io/en/latest/dataset_zoo/2d_body_keypoint.html?highlight=aic) and put in `/annotations`
 
 ### Speed test for merge training
+- Change config data root and file path
 
 ### Set hyperparameters to excel sheet
