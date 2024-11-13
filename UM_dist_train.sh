@@ -37,7 +37,8 @@ nvidia-smi
 #--arg_notes 'VEHS-7M only - resume' \
 #--resume \
 
-CONFIG="configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7MOnly-384x288.py"
+#CONFIG="configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7MOnly-384x288.py"
+CONFIG="configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7Mplus-384x288.py"
 GPUS=$SLURM_GPUS_ON_NODE
 NNODES=$SLURM_NNODES
 NODE_RANK=${NODE_RANK:-0}
@@ -53,9 +54,9 @@ python -m torch.distributed.launch \
     --master_port=$PORT \
     tools/train.py \
     $CONFIG \
-    --wandb_name 'Train-slurm-VEHS7MOnly' \
+    --wandb_name 'Train-slurm-VEHS7Plus' \
     --wandb_mode 'online' \
-    --arg_notes 'VEHS-7M only - resume - 3GPU_fast' \
-    --resume \
+    --arg_notes 'VEHS-7M plus - 3GPU - speed test' \
     --launcher pytorch
+#        --resume \
 

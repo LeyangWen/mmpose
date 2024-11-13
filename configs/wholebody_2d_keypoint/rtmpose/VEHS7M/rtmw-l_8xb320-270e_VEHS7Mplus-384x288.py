@@ -125,13 +125,13 @@ model = dict(
 # base dataset settings
 dataset_type = 'VEHS7M37kptsDataset'
 data_mode = 'topdown'
-# data_root = '/media/leyang/My Book/VEHS/VEHS-7M/'  # Linux path
-data_root = '/nfs/turbo/coe-shdpm/leyang/VEHS-7M/'  # Slurm path
+# data_root = '/media/leyang/My Book/VEHS/'  # Linux path
+data_root = '/nfs/turbo/coe-shdpm/leyang/'  # Slurm path
 
-# VEHS7M_train_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_train.json'
-# VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_validate.json'
-VEHS7M_train_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_train.json'
-VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_validate.json'
+# VEHS7M_train_ann_file = 'VEHS-7M/annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_train.json'
+# VEHS7M_val_ann_file = 'VEHS-7M/annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_validate.json'
+VEHS7M_train_ann_file = 'VEHS-7M/annotations/2D/VEHS_6DCOCO_downsample20_keep1_train.json'
+VEHS7M_val_ann_file = 'VEHS-7M/annotations/2D/VEHS_6DCOCO_downsample20_keep1_validate.json'
 
 VEHS7M_metainfo = 'configs/_base_/datasets/VEHS7M_37kpts.py'
 backend_args = dict(backend='local')
@@ -309,16 +309,16 @@ dataset_VHES7M = dict(
     data_root=data_root,
     data_mode=data_mode,
     ann_file=VEHS7M_train_ann_file,
-    data_prefix=dict(img='img/5fps/train/'),
+    data_prefix=dict(img='VEHS-7M/img/5fps/train/'),
     pipeline=[],
 )
 
 dataset_coco = dict(
     type='CocoWholeBodyDataset',
-    data_root='data/coco/',
+    data_root=data_root+"Datasets/HumanPose2D/",
     data_mode=data_mode,
-    ann_file='annotations/coco_wholebody_train_v1.0.json',
-    data_prefix=dict(img='train2017'),
+    ann_file='OpenDataLab___COCO-WholeBody/raw/coco_wholebody_train_v1.0.json',
+    data_prefix=dict(img='OpenDataLab___COCO_2017/raw/Images/train2017'),
     pipeline=[
         dict(
             type='KeypointConverter',
@@ -329,7 +329,7 @@ dataset_coco = dict(
 
 dataset_aic = dict(
     type='AicDataset',
-    data_root="/media/leyang/My Book/Datasets/HumanPose2D/OpenDataLab___AI_Challenger/",
+    data_root=data_root+"Datasets/HumanPose2D/OpenDataLab___AI_Challenger/",
     data_mode=data_mode,
     ann_file='annotations/aic_train.json',
     data_prefix=dict(img='raw/ai_challenger_keypoint_train_20170902/keypoint_train_images_20170902/'),
@@ -344,7 +344,7 @@ dataset_aic = dict(
 
 dataset_mpiitrb = dict(
     type='MpiiTrbDataset',
-    data_root="/media/leyang/My Book/Datasets/HumanPose2D/OpenDataLab___MPII_Human_Pose/",
+    data_root=data_root+"Datasets/HumanPose2D/OpenDataLab___MPII_Human_Pose/",
     data_mode=data_mode,
     ann_file='annotations/mpii_trb_train.json',
     data_prefix=dict(img='raw/images'),
@@ -392,10 +392,8 @@ val_dataloader = dict(
         data_root=data_root,
         data_mode=data_mode,
         ann_file= VEHS7M_val_ann_file,
-        data_prefix=dict(img='img/5fps/validate/'),
+        data_prefix=dict(img='VEHS-7M/img/5fps/validate/'),
         pipeline=val_pipeline,
-        # bbox_file='data/coco/person_detection_results/'
-        # 'COCO_val2017_detections_AP_H_56_person.json',
         test_mode=True))
 
 test_dataloader = val_dataloader

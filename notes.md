@@ -226,16 +226,28 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
 ### Download all datasets and MMpose annotations in Turbo
 - Images
 ```bash
-  pip install openxlab #安装
-  pip install -U openxlab #版本升级
+  conda activate openmmlab
+#  pip install openxlab #安装
+#  pip install -U openxlab #版本升级
   openxlab login #进行登录，输入对应的AK/SK
   
+  cd /nfs/turbo/coe-shdpm/leyang/Datasets/HumanPose2D
   openxlab dataset get --dataset-repo OpenDataLab/AI_Challenger #数据集下载
   openxlab dataset get --dataset-repo OpenDataLab/MPII_Human_Pose #数据集下载
-  mim download mmpose --dataset coco2017
+  openxlab dataset get --dataset-repo OpenDataLab/COCO-WholeBody #数据集下载
+  openxlab dataset get --dataset-repo OpenDataLab/COCO_2017 #数据集下载
 ```
 - MMpose annotations
   - [link](https://mmpose.readthedocs.io/en/latest/dataset_zoo/2d_body_keypoint.html?highlight=aic) and put in `/annotations`
+- unzip
+  -x: Extracts the contents.
+  -v: Verbose mode, shows the files being extracted.
+  -f: Specifies the file name.
+  -z: Used for gzip-compressed .tar.gz files.
+```
+   tar -xvf file.tar
+   tar -xvzf file.tar.gz
+```
 
 ### Speed test for merge training
 - Change config data root and file path
