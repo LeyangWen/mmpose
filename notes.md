@@ -247,9 +247,11 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
 ```
    tar -xvf file.tar
    tar -xvzf file.tar.gz
+   unzip file.zip
 ```
 
 ### Speed test for merge training
 - Change config data root and file path
+- `sbatch UM_dist_train.sh`
 
 ### Set hyperparameters to excel sheet
