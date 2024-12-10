@@ -143,7 +143,7 @@ train_pipeline = [
     dict(type='RandomFlip', direction='horizontal'),
     dict(type='RandomHalfBody'),
     dict(
-        type='RandomBBoxTransform', scale_factor=[0.5, 1.5], rotate_factor=90),
+        type='RandomBBoxTransform', scale_factor=[0.55, 1.45], rotate_factor=85),
     dict(type='TopdownAffine', input_size=codec['input_size']),
     dict(type='PhotometricDistortion'),
     dict(
@@ -181,8 +181,8 @@ train_pipeline_stage2 = [
     dict(
         type='RandomBBoxTransform',
         shift_factor=0.,
-        scale_factor=[0.5, 1.5],
-        rotate_factor=90),
+        scale_factor=[0.675, 1.375],
+        rotate_factor=75),
     dict(type='TopdownAffine', input_size=codec['input_size']),
     dict(
         type='Albumentation',
