@@ -10,15 +10,12 @@ input_size = (288, 384)
 max_epochs = 270
 stage2_num_epochs = 10
 base_lr = 5e-4
-train_batch_size = 122
+train_batch_size = 112
 val_batch_size = 32
+load_from = None  # change to 'path/best_model.pth' string
 
-# train_cfg = dict(max_epochs=max_epochs, val_interval=10)
-randomness = dict(seed=21)
-
-max_epochs = 270
-stage2_num_epochs = 30
 train_cfg = dict(max_epochs=max_epochs, val_interval=10)
+randomness = dict(seed=21)
 
 
 # optimizer
@@ -84,6 +81,7 @@ model = dict(
             prefix='backbone.',
             checkpoint='https://download.openmmlab.com/mmpose/v1/projects/'
             'rtmposev1/rtmpose-l_simcc-ucoco_dw-ucoco_270e-256x192-4d6dfc62_20230728.pth'  # noqa
+            # this will be ignored if load_from is specified: https://github.com/open-mmlab/mmpretrain/issues/770#issuecomment-2062145227
         )),
     neck=dict(
         type='CSPNeXtPAFPN',
@@ -129,13 +127,13 @@ model = dict(
 # base dataset settings
 dataset_type = 'VEHS7M37kptsDataset'
 data_mode = 'topdown'
-# data_root = '/media/leyang/My Book/VEHS/VEHS-7M/'  # Linux path
-data_root = '/nfs/turbo/coe-shdpm/leyang/VEHS-7M/'  # Slurm path
+# data_root = '/media/leyang/My Book/VEHS/'  # Linux path
+data_root = '/nfs/turbo/coe-shdpm/leyang/'  # Slurm path
 
-# VEHS7M_train_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_train.json'
-# VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_validate.json'
-VEHS7M_train_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_train.json'
-VEHS7M_val_ann_file = 'annotations/2D/VEHS_6DCOCO_downsample20_keep1_validate.json'
+# VEHS7M_train_ann_file = 'VEHS-7M/annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_train.json'
+# VEHS7M_val_ann_file = 'VEHS-7M/annotations/2D/VEHS_6DCOCO_downsample20_keep1_small_validate.json'
+VEHS7M_train_ann_file = 'VEHS-7M/annotations/2D/VEHS_6DCOCO_downsample20_keep1_train.json'
+VEHS7M_val_ann_file = 'VEHS-7M/annotations/2D/VEHS_6DCOCO_downsample20_keep1_validate.json'
 
 VEHS7M_metainfo = 'configs/_base_/datasets/VEHS7M_37kpts.py'
 backend_args = dict(backend='local')
@@ -147,9 +145,9 @@ train_pipeline = [
     dict(type='RandomFlip', direction='horizontal'),
     dict(type='RandomHalfBody'),
     dict(
-        type='RandomBBoxTransform', scale_factor=[0.5, 1.5], rotate_factor=90),
+        type='RandomBBoxTransform', scale_factor=[0.6, 1.4], rotate_factor=80),
     dict(type='TopdownAffine', input_size=codec['input_size']),
-    dict(type='PhotometricDistortion'),
+    # dict(type='PhotometricDistortion'),
     dict(
         type='Albumentation',
         transforms=[
@@ -185,8 +183,8 @@ train_pipeline_stage2 = [
     dict(
         type='RandomBBoxTransform',
         shift_factor=0.,
-        scale_factor=[0.5, 1.5],
-        rotate_factor=90),
+        scale_factor=[0.75, 1.25],
+        rotate_factor=60),
     dict(type='TopdownAffine', input_size=codec['input_size']),
     dict(
         type='Albumentation',
@@ -208,7 +206,7 @@ dataset_VHES7M = dict(
     data_root=data_root,
     data_mode=data_mode,
     ann_file=VEHS7M_train_ann_file,
-    data_prefix=dict(img='img/5fps/train/'),
+    data_prefix=dict(img='VEHS-7M/img/5fps/train/'),
     pipeline=[],
 )
 
@@ -226,29 +224,21 @@ train_datasets = [dataset_wb,]
 # data loaders
 train_dataloader = dict(
     batch_size=train_batch_size,
-    num_workers=2,
+    num_workers=4,
     pin_memory=False,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
     dataset=dict(
-        type=dataset_type,
-        data_root=data_root,
-        data_mode=data_mode,
-        ann_file=VEHS7M_train_ann_file,
-        data_prefix=dict(img='img/5fps/train/'),
-        pipeline=train_pipeline,
+        type='CombinedDataset',
         metainfo=dict(from_file=VEHS7M_metainfo),
-
-        # type='CombinedDataset',
-        # metainfo=dict(from_file=VEHS7M_metainfo),
-        # datasets=train_datasets,
-        # pipeline=train_pipeline,
-        # test_mode=False,
+        datasets=train_datasets,
+        pipeline=train_pipeline,
+        test_mode=False,
     ))
 
 val_dataloader = dict(
     batch_size=val_batch_size,
-    num_workers=2,
+    num_workers=4,
     persistent_workers=True,
     drop_last=False,
     sampler=dict(type='DefaultSampler', shuffle=False, round_up=False),
@@ -257,10 +247,8 @@ val_dataloader = dict(
         data_root=data_root,
         data_mode=data_mode,
         ann_file= VEHS7M_val_ann_file,
-        data_prefix=dict(img='img/5fps/validate/'),
+        data_prefix=dict(img='VEHS-7M/img/5fps/validate/'),
         pipeline=val_pipeline,
-        # bbox_file='data/coco/person_detection_results/'
-        # 'COCO_val2017_detections_AP_H_56_person.json',
         test_mode=True))
 
 test_dataloader = val_dataloader
