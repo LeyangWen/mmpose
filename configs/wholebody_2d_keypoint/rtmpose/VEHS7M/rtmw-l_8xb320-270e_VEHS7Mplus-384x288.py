@@ -73,13 +73,15 @@ model = dict(
         deepen_factor=1.,
         widen_factor=1.,
         channel_attention=True,
+        frozen_stages=100,
         norm_cfg=dict(type='BN'),
         act_cfg=dict(type='SiLU'),
         init_cfg=dict(
             type='Pretrained',
             prefix='backbone.',
             checkpoint='https://download.openmmlab.com/mmpose/v1/projects/'
-            'rtmposev1/rtmpose-l_simcc-ucoco_dw-ucoco_270e-256x192-4d6dfc62_20230728.pth'  # noqa
+                       'rtmpose-l_simcc-coco-wholebody_pt-aic-coco_270e-384x288-eaeb96c8_20230125.pth'
+            # 'rtmposev1/rtmpose-l_simcc-ucoco_dw-ucoco_270e-256x192-4d6dfc62_20230728.pth'  # noqa
         )),
     neck=dict(
         type='CSPNeXtPAFPN',
@@ -296,9 +298,11 @@ mpii_trb_VEHS7M = [(0, 16), (1, 15),
                    (8, 6), (9, 5),
                    (10, 8), (11, 7),
                    (12, 19),
-                   (13, 22),
-                   (18, 30), (19, 29),
-                   (20, 32),(21, 31)]
+                   (13, 22)]
+
+                   # (18, 30), (19, 29),  # elbow keypoints
+                   # (20, 32),(21, 31)]
+
 # [(0, 7), (1, 5), (2, 3), (4, 2), (5, 4), (10, 1), (11, 13), (12, 15), (13, 19), (14, 14), (15, 12)]
 
 # convert others by other-coco133-VEHS7M?, wont work for some with coco133 missing points
