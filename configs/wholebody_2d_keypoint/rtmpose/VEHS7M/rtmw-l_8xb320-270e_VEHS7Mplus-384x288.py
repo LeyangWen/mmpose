@@ -73,7 +73,7 @@ model = dict(
         deepen_factor=1.,
         widen_factor=1.,
         channel_attention=True,
-        frozen_stages=100,
+        frozen_stages=4,
         norm_cfg=dict(type='BN'),
         act_cfg=dict(type='SiLU'),
         init_cfg=dict(
