@@ -1,14 +1,14 @@
 #!/bin/bash -l
 #SBATCH --job-name=RTMPose-Train
-#SBATCH --output=output_slurm/train_log.txt
-#SBATCH --error=output_slurm/train_error.txt
+#SBATCH --output=output_slurm/train_log_multiGPU.txt
+#SBATCH --error=output_slurm/train_error_multiGPU.txt
 #SBATCH --mail-type=BEGIN,END,FAIL
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=4
+#SBATCH --cpus-per-task=2
 #SBATCH --mem=80g
-#SBATCH --gres=gpu:8
-#SBATCH --time=24:00:00
+#SBATCH --gres=gpu:2
+#SBATCH --time=20:00
 #SBATCH --account=shdpm0
 #SBATCH --partition=spgpu
 
@@ -37,8 +37,8 @@ nvidia-smi
 #--arg_notes 'VEHS-7M only - resume' \
 #--resume \
 
-CONFIG="configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7MOnly-384x288.py"
-#CONFIG="configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7Mplus-384x288.py"
+# CONFIG="configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7MOnly-384x288.py"
+CONFIG="configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7Mplus-384x288.py"
 GPUS=$SLURM_GPUS_ON_NODE
 NNODES=$SLURM_NNODES
 NODE_RANK=${NODE_RANK:-0}
@@ -58,5 +58,5 @@ python -m torch.distributed.launch \
     --wandb_mode 'online' \
     --arg_notes '8GPU - speed test' \
     --launcher pytorch \
-    --resume \
+    # --resume \
 

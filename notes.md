@@ -255,3 +255,49 @@ python tools/train.py configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320
 - `sbatch UM_dist_train.sh`
 
 ### Set hyperparameters to excel sheet
+
+
+## Freeze Training
+Freezing backbone, and only training feature extractor,
+- Change config
+  - [link](https://mmyolo.readthedocs.io/en/latest/common_usage/freeze_layers.html)
+  - [link](https://github.com/open-mmlab/mmpose/issues/586#issuecomment-822332093)
+  - add:
+  ```
+  find_unused_parameters = True
+  model = dict(
+    backbone=dict(
+        frozen_stages=4,
+     )
+    neck=dict(
+        freeze_all=True,
+    ))
+  ```
+  - You need to determine the stages for backbone, you can fint the number by setting it to a large number and printing out the max layers in the exception
+  - Problem: Backbone one working for 1 GPU, but not multi-GPU
+    ```
+      RuntimeError: Expected to have finished reduction in the prior iteration before starting a new one. This error indicates that your module has parameters that were not used in producing loss. You can enable unused parameter detection by passing the keyword argument `find_unused_parameters=True` to `torch.nn.parallel.DistributedDataParallel`, and by 
+      making sure all `forward` function outputs participate in calculating loss. 
+    ```
+    - seems to be mmdet + multi GPU issue. [link](https://github.com/open-mmlab/mmdetection/issues/2153), [link](https://github.com/open-mmlab/mmpose/issues/2123)
+    - Just add `find_unused_parameters = True` in config file base
+    - Works
+   
+  - Problem: neck freeze not working
+    - Just set LR to 0 instead in config. I read that it is not optimal, but should work as freeze
+    - [link](https://github.com/open-mmlab/mmocr/issues/828)
+    ```
+      optim_wrapper = dict(
+            type='OptimWrapper',
+            optimizer=dict(type='AdamW', lr=base_lr, weight_decay=0.1),
+            clip_grad=dict(max_norm=35, norm_type=2),
+            paramwise_cfg=dict(
+                norm_decay_mult=0, bias_decay_mult=0, bypass_duplicate=True,
+                custom_keys={
+                'backbone': dict(lr_mult=0, decay_mult=0),
+                'neck': dict(lr_mult=0, decay_mult=0)
+            }))
+    ```
+
+
+

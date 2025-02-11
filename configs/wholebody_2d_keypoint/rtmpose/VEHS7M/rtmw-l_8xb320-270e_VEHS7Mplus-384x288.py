@@ -23,7 +23,11 @@ optim_wrapper = dict(
     optimizer=dict(type='AdamW', lr=base_lr, weight_decay=0.1),
     clip_grad=dict(max_norm=35, norm_type=2),
     paramwise_cfg=dict(
-        norm_decay_mult=0, bias_decay_mult=0, bypass_duplicate=True))
+        norm_decay_mult=0, bias_decay_mult=0, bypass_duplicate=True,
+        custom_keys={
+                'backbone': dict(lr_mult=0, decay_mult=0),
+                'neck': dict(lr_mult=0, decay_mult=0)}
+                ))
 
 # learning rate
 param_scheduler = [
@@ -57,6 +61,7 @@ codec = dict(
     use_dark=False,
     decode_visibility=True)
 
+find_unused_parameters = True
 # model settings
 model = dict(
     type='TopdownPoseEstimator',
