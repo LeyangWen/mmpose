@@ -3,7 +3,45 @@ _base_ = ['../../../_base_/default_runtime.py']
 # common setting
 num_keypoints = 37
 sigmas = [0.025]*num_keypoints
-joint_weights = [1.]*num_keypoints
+joint_weights = [
+    1.0,  # PELVIS
+    1.5,  # RWRIST
+    1.5,  # LWRIST
+    1.0,  # RHIP
+    1.0,  # LHIP
+    1.0,  # RKNEE
+    1.0,  # LKNEE
+    1.0,  # RANKLE
+    1.0,  # LANKLE
+    1.0,  # RFOOT
+    1.0,  # LFOOT
+    1.5,  # RHAND
+    1.5,  # LHAND
+    1.0,  # RELBOW
+    1.0,  # LELBOW
+    1.0,  # RSHOULDER
+    1.0,  # LSHOULDER
+    1.0,  # HEAD
+    1.0,  # THORAX
+    1.0,  # HDTP
+    1.0,  # REAR
+    1.0,  # LEAR
+    1.0,  # C7
+    1.0,  # C7_d
+    1.0,  # SS
+    1.0,  # RAP_b
+    1.0,  # RAP_f
+    1.0,  # LAP_b
+    1.0,  # LAP_f
+    1.0,  # RLE
+    1.0,  # RME
+    1.0,  # LLE
+    1.0,  # LME
+    1.5,  # RMCP2
+    1.5,  # RMCP5
+    1.5,  # LMCP2
+    1.5   # LMCP5
+]
 input_size = (288, 384)
 
 # runtime
@@ -409,7 +447,7 @@ test_dataloader = val_dataloader
 
 # hooks
 default_hooks = dict(
-    checkpoint=dict(save_best='coco/AP', rule='greater', max_keep_ckpts=1))
+    checkpoint=dict(save_best='coco/AP', rule='greater', max_keep_ckpts=10))
 
 custom_hooks = [
     dict(
