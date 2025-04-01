@@ -29,7 +29,7 @@ nvidia-smi
 ## RTMPose - Train 37kpts on VEHS-7M only
 python tools/train.py \
 configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7Mplus-384x288.py \
---wandb_name 'Train-slurm-VEHS7MPlus' \
+--wandb_name 'Train-slurm-RTMW-VEHS7MPlus' \
 --wandb_mode 'online' \
---arg_notes 'VEHS-7M plus freeze test' \
+--arg_notes 'RTMW cocktail14 debug'
 # --resume \
