@@ -3,45 +3,7 @@ _base_ = ['../../../_base_/default_runtime.py']
 # common setting
 num_keypoints = 37
 sigmas = [0.025]*num_keypoints
-# joint_weights = [
-#     1.0,  # PELVIS
-#     1.5,  # RWRIST
-#     1.5,  # LWRIST
-#     1.0,  # RHIP
-#     1.0,  # LHIP
-#     1.0,  # RKNEE
-#     1.0,  # LKNEE
-#     1.0,  # RANKLE
-#     1.0,  # LANKLE
-#     1.0,  # RFOOT
-#     1.0,  # LFOOT
-#     1.5,  # RHAND
-#     1.5,  # LHAND
-#     1.0,  # RELBOW
-#     1.0,  # LELBOW
-#     1.0,  # RSHOULDER
-#     1.0,  # LSHOULDER
-#     1.0,  # HEAD
-#     1.0,  # THORAX
-#     1.0,  # HDTP
-#     1.0,  # REAR
-#     1.0,  # LEAR
-#     1.0,  # C7
-#     1.0,  # C7_d
-#     1.0,  # SS
-#     1.0,  # RAP_b
-#     1.0,  # RAP_f
-#     1.0,  # LAP_b
-#     1.0,  # LAP_f
-#     1.0,  # RLE
-#     1.0,  # RME
-#     1.0,  # LLE
-#     1.0,  # LME
-#     1.5,  # RMCP2
-#     1.5,  # RMCP5
-#     1.5,  # LMCP2
-#     1.5   # LMCP5
-# ]
+
 input_size = (288, 384)
 
 # runtime
@@ -108,12 +70,11 @@ model = dict(
         std=[58.395, 57.12, 57.375],
         bgr_to_rgb=True),
     backbone=dict(
-        _scope_='mmdet',
         type='CSPNeXt',
         arch='P5',
         expand_ratio=0.5,
-        deepen_factor=1.,
-        widen_factor=1.,
+        deepen_factor=1.33,
+        widen_factor=1.25,
         channel_attention=True,
         frozen_stages=4,
         norm_cfg=dict(type='BN'),
@@ -121,13 +82,13 @@ model = dict(
         init_cfg=dict(
             type='Pretrained',
             prefix='backbone.',
-            checkpoint = 'https://download.openmmlab.com/mmpose/v1/projects/rtmw/rtmw-dw-x-l_simcc-cocktail14_270e-384x288-20231122.pth'
-            # checkpoint='https://download.openmmlab.com/mmpose/v1/projects/'
-            # 'rtmposev1/rtmpose-l_simcc-ucoco_dw-ucoco_270e-256x192-4d6dfc62_20230728.pth'  # noqa
+            checkpoint = 'https://download.openmmlab.com/mmpose/v1/projects/rtmw/rtmw-x_simcc-cocktail14_pt-ucoco_270e-384x288-f840f204_20231122.pth',
+            # checkpoint='https://download.openmmlab.com/mmpose/v1/'
+            # 'wholebody_2d_keypoint/rtmpose/ubody/rtmpose-x_simcc-ucoco_pt-aic-coco_270e-384x288-f5b50679_20230822.pth'  # noqa
         )),
     neck=dict(
         type='CSPNeXtPAFPN',
-        in_channels=[256, 512, 1024],
+        in_channels=[320, 640, 1280],
         out_channels=None,
         out_indices=(
             1,
@@ -139,7 +100,7 @@ model = dict(
         act_cfg=dict(type='SiLU', inplace=True)),
     head=dict(
         type='RTMWHead',
-        in_channels=1024,
+        in_channels=1280,
         out_channels=num_keypoints,
         input_size=input_size,
         in_featuremap_size=tuple([s // 32 for s in input_size]),
@@ -187,7 +148,7 @@ train_pipeline = [
     dict(type='RandomFlip', direction='horizontal'),
     dict(type='RandomHalfBody'),
     dict(
-        type='RandomBBoxTransform', scale_factor=[0.55, 1.45], rotate_factor=85),
+        type='RandomBBoxTransform', scale_factor=[0.5, 1.5], rotate_factor=90),
     dict(type='TopdownAffine', input_size=codec['input_size']),
     dict(type='PhotometricDistortion'),
     dict(
@@ -225,8 +186,8 @@ train_pipeline_stage2 = [
     dict(
         type='RandomBBoxTransform',
         shift_factor=0.,
-        scale_factor=[0.675, 1.375],
-        rotate_factor=75),
+        scale_factor=[0.5, 1.5],
+        rotate_factor=90),
     dict(type='TopdownAffine', input_size=codec['input_size']),
     dict(
         type='Albumentation',
@@ -440,6 +401,8 @@ val_dataloader = dict(
         ann_file= VEHS7M_val_ann_file,
         data_prefix=dict(img='VEHS-7M/img/5fps/validate/'),
         pipeline=val_pipeline,
+        # bbox_file='data/coco/person_detection_results/'
+        # 'COCO_val2017_detections_AP_H_56_person.json',
         test_mode=True))
 
 test_dataloader = val_dataloader
