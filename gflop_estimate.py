@@ -16,10 +16,10 @@ def get_gflops(module, in_shape):
 
 # --- 1) build model ---------------------------------------------------------
 
-# cfg = Config.fromfile('configs/wholebody_2d_keypoint/rtmpose/cocktail14/'
-#                       'rtmw-l_8xb320-270e_cocktail14-384x288.py')
-cfg = Config.fromfile('/home/leyang/Documents/mmpose/configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7Mplus-384x288.py')
-model = init_model(cfg, checkpoint=None, device='cuda:0')
+cfg = Config.fromfile('configs/wholebody_2d_keypoint/rtmpose/cocktail14/rtmw-l_8xb320-270e_cocktail14-384x288.py')
+# cfg = Config.fromfile('configs/wholebody_2d_keypoint/rtmpose/coco-wholebody/rtmpose-l_8xb32-270e_coco-wholebody-384x288.py')
+# cfg = Config.fromfile('/home/leyang/Documents/mmpose/configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7Mplus-384x288.py')
+model = init_model(cfg, device='cuda:0')
 # --- 2) measure backbone & backbone+neck (you already have this) -------------
 gflops_bb    = get_gflops(model.backbone, (3, 384, 288))
 # BBNeck wrapper from before
@@ -57,3 +57,15 @@ print(f"Backbone+Neck : {gflops_bb_neck:.2f} G")
 print(f"Backbone+Neck+Head: {gflops_bb_neck_head:.2f} G")
 print(f"→   Neck      : {gflops_bb_neck - gflops_bb:.2f} G")
 print(f"→   Head      : {gflops_head:.2f} G")
+
+
+
+
+meta = load_checkpoint(
+    model,
+    # 'https://download.openmmlab.com/mmpose/v1/projects/rtmw/rtmw-dw-x-l_simcc-cocktail14_270e-384x288-20231122.pth',
+    'https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-l_simcc-ucoco_dw-ucoco_270e-256x192-4d6dfc62_20230728.pth',
+    map_location='cuda:0',
+    logger=logging.getLogger('checkpoint_test'),
+    strict=False  # allow you to see missing/unexpected keys
+)
