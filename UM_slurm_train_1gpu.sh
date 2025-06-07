@@ -30,6 +30,6 @@ nvidia-smi
 python tools/train.py \
 configs/wholebody_2d_keypoint/rtmpose/VEHS7M/rtmw-l_8xb320-270e_VEHS7Mplus-384x288.py \
 --wandb_name 'Train-slurm-RTMW-VEHS7MPlus' \
---wandb_mode 'online' \
+--wandb_mode 'disabled' \
 --arg_notes 'RTMW cocktail14 debug'
 # --resume \

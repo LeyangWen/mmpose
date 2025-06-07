@@ -94,7 +94,8 @@ class CSPNeXt(BaseModule):
         if frozen_stages not in range(-1, len(arch_setting) + 1):
             raise ValueError('frozen_stages must be in range(-1, '
                              'len(arch_setting) + 1). But received '
-                             f'{frozen_stages}')
+                             f'{frozen_stages}'
+                             f'len(arch_setting) = {len(arch_setting)}')
 
         self.out_indices = out_indices
         self.frozen_stages = frozen_stages
