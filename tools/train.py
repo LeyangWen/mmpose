@@ -165,6 +165,14 @@ def main():
     print(f"Cuda available: {torch.cuda.is_available()} - {torch.__version__}")
     # build the runner from config
     runner = Runner.from_cfg(cfg)
+    
+    if getattr(cfg, 'freeze_neck', False):
+        if hasattr(runner.model, 'neck'):
+            runner.model.neck.requires_grad_(False)
+            runner.model.neck.eval()
+            print("Freezing neck module")
+        else:
+            print("No neck module found in the model, skipping freeze neck")
 
     # start training
     runner.train()

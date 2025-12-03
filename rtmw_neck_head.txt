@@ -1,0 +1,301 @@
+  (neck): CSPNeXtPAFPN(
+    (upsample): Upsample(scale_factor=2.0, mode='nearest')
+    (reduce_layers): ModuleList(
+      (0): ConvModule(
+        (conv): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): _BatchNormXd(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (activate): SiLU(inplace=True)
+      )
+      (1): ConvModule(
+        (conv): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (activate): SiLU(inplace=True)
+      )
+    )
+    (top_down_blocks): ModuleList(
+      (0): CSPLayer(
+        (main_conv): ConvModule(
+          (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (activate): SiLU(inplace=True)
+        )
+        (short_conv): ConvModule(
+          (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (activate): SiLU(inplace=True)
+        )
+        (final_conv): ConvModule(
+          (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): _BatchNormXd(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (activate): SiLU(inplace=True)
+        )
+        (blocks): Sequential(
+          (0): CSPNeXtBlock(
+            (conv1): ConvModule(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (activate): SiLU(inplace=True)
+            )
+            (conv2): DepthwiseSeparableConvModule(
+              (depthwise_conv): ConvModule(
+                (conv): Conv2d(256, 256, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=256, bias=False)
+                (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+              (pointwise_conv): ConvModule(
+                (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+            )
+          )
+          (1): CSPNeXtBlock(
+            (conv1): ConvModule(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (activate): SiLU(inplace=True)
+            )
+            (conv2): DepthwiseSeparableConvModule(
+              (depthwise_conv): ConvModule(
+                (conv): Conv2d(256, 256, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=256, bias=False)
+                (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+              (pointwise_conv): ConvModule(
+                (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+            )
+          )
+        )
+      )
+      (1): CSPLayer(
+        (main_conv): ConvModule(
+          (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): _BatchNormXd(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (activate): SiLU(inplace=True)
+        )
+        (short_conv): ConvModule(
+          (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): _BatchNormXd(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (activate): SiLU(inplace=True)
+        )
+        (final_conv): ConvModule(
+          (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (activate): SiLU(inplace=True)
+        )
+        (blocks): Sequential(
+          (0): CSPNeXtBlock(
+            (conv1): ConvModule(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): _BatchNormXd(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (activate): SiLU(inplace=True)
+            )
+            (conv2): DepthwiseSeparableConvModule(
+              (depthwise_conv): ConvModule(
+                (conv): Conv2d(128, 128, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=128, bias=False)
+                (bn): _BatchNormXd(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+              (pointwise_conv): ConvModule(
+                (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                (bn): _BatchNormXd(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+            )
+          )
+          (1): CSPNeXtBlock(
+            (conv1): ConvModule(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): _BatchNormXd(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (activate): SiLU(inplace=True)
+            )
+            (conv2): DepthwiseSeparableConvModule(
+              (depthwise_conv): ConvModule(
+                (conv): Conv2d(128, 128, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=128, bias=False)
+                (bn): _BatchNormXd(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+              (pointwise_conv): ConvModule(
+                (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                (bn): _BatchNormXd(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+            )
+          )
+        )
+      )
+    )
+    (downsamples): ModuleList(
+      (0): ConvModule(
+        (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (activate): SiLU(inplace=True)
+      )
+      (1): ConvModule(
+        (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn): _BatchNormXd(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (activate): SiLU(inplace=True)
+      )
+    )
+    (bottom_up_blocks): ModuleList(
+      (0): CSPLayer(
+        (main_conv): ConvModule(
+          (conv): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (activate): SiLU(inplace=True)
+        )
+        (short_conv): ConvModule(
+          (conv): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (activate): SiLU(inplace=True)
+        )
+        (final_conv): ConvModule(
+          (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): _BatchNormXd(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (activate): SiLU(inplace=True)
+        )
+        (blocks): Sequential(
+          (0): CSPNeXtBlock(
+            (conv1): ConvModule(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (activate): SiLU(inplace=True)
+            )
+            (conv2): DepthwiseSeparableConvModule(
+              (depthwise_conv): ConvModule(
+                (conv): Conv2d(256, 256, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=256, bias=False)
+                (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+              (pointwise_conv): ConvModule(
+                (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+            )
+          )
+          (1): CSPNeXtBlock(
+            (conv1): ConvModule(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (activate): SiLU(inplace=True)
+            )
+            (conv2): DepthwiseSeparableConvModule(
+              (depthwise_conv): ConvModule(
+                (conv): Conv2d(256, 256, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=256, bias=False)
+                (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+              (pointwise_conv): ConvModule(
+                (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                (bn): _BatchNormXd(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+            )
+          )
+        )
+      )
+      (1): CSPLayer(
+        (main_conv): ConvModule(
+          (conv): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): _BatchNormXd(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (activate): SiLU(inplace=True)
+        )
+        (short_conv): ConvModule(
+          (conv): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): _BatchNormXd(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (activate): SiLU(inplace=True)
+        )
+        (final_conv): ConvModule(
+          (conv): Conv2d(1024, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): _BatchNormXd(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (activate): SiLU(inplace=True)
+        )
+        (blocks): Sequential(
+          (0): CSPNeXtBlock(
+            (conv1): ConvModule(
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): _BatchNormXd(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (activate): SiLU(inplace=True)
+            )
+            (conv2): DepthwiseSeparableConvModule(
+              (depthwise_conv): ConvModule(
+                (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+                (bn): _BatchNormXd(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+              (pointwise_conv): ConvModule(
+                (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                (bn): _BatchNormXd(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+            )
+          )
+          (1): CSPNeXtBlock(
+            (conv1): ConvModule(
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): _BatchNormXd(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (activate): SiLU(inplace=True)
+            )
+            (conv2): DepthwiseSeparableConvModule(
+              (depthwise_conv): ConvModule(
+                (conv): Conv2d(512, 512, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=512, bias=False)
+                (bn): _BatchNormXd(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+              (pointwise_conv): ConvModule(
+                (conv): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                (bn): _BatchNormXd(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (activate): SiLU(inplace=True)
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+  init_cfg={'type': 'Kaiming', 'layer': 'Conv2d', 'a': 2.23606797749979, 'distribution': 'uniform', 'mode': 'fan_in', 'nonlinearity': 'leaky_relu'}
+   (head): RTMWHead(
+    (loss_module): KLDiscretLoss(
+      (log_softmax): LogSoftmax(dim=1)
+      (kl_loss): KLDivLoss()
+    )
+    (ps): PixelShuffle(upscale_factor=2)
+    (conv_dec): ConvModule(
+      (conv): Conv2d(256, 256, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), bias=False)
+      (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activate): ReLU(inplace=True)
+    )
+    (final_layer): ConvModule(
+      (conv): Conv2d(1024, 37, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), bias=False)
+      (bn): BatchNorm2d(37, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activate): ReLU(inplace=True)
+    )
+    (final_layer2): ConvModule(
+      (conv): Conv2d(768, 37, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), bias=False)
+      (bn): BatchNorm2d(37, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activate): ReLU(inplace=True)
+    )
+    (mlp): Sequential(
+      (0): ScaleNorm()
+      (1): Linear(in_features=108, out_features=128, bias=False)
+    )
+    (mlp2): Sequential(
+      (0): ScaleNorm()
+      (1): Linear(in_features=432, out_features=128, bias=False)
+    )
+    (gau): RTMCCBlock(
+      (drop_path): Identity()
+      (o): Linear(in_features=512, out_features=256, bias=False)
+      (uv): Linear(in_features=256, out_features=1152, bias=False)
+      (ln): ScaleNorm()
+      (act_fn): SiLU(inplace=True)
+      (res_scale): Scale()
+    )
+    (cls_x): Linear(in_features=256, out_features=576, bias=False)
+    (cls_y): Linear(in_features=256, out_features=768, bias=False)
+  )
+  init_cfg=[{'type': 'Normal', 'layer': ['Conv2d'], 'std': 0.001}, {'type': 'Constant', 'layer': 'BatchNorm2d', 'val': 1}, {'type': 'Normal', 'layer': ['Linear'], 'std': 0.01, 'bias': 0}]
