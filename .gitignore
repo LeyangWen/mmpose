@@ -136,3 +136,4 @@ docs/**/modelzoo.md
 
 *.DS_Store
 demo/RTMW37kpts_v2_20fps-finetune-pitch-correct-5-angleLossV2-only/best_epoch.bin
+demo/checkpoints/RTMW37kpts_v2_20fps-finetune-pitch-correct-5-angleLossV2-only/best_epoch.bin
